@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useId } from "react";
+import dltLogo from "../assets/dlt.svg";
 
 function Table() {
   var obj = JSON.parse(localStorage.getItem("obj"));
 
   return (
     <div>
-
       <table>
         <thead>
           <tr>
@@ -13,6 +13,7 @@ function Table() {
             <th>Type</th>
             <th>Event</th>
             <th>₹</th>
+            {/* <th>Delete</th> */}
           </tr>
         </thead>
         <tbody>
@@ -22,6 +23,9 @@ function Table() {
               <td key={index}>{item[0]}</td>
               <td key={index}>{item[1]}</td>
               <td key={index}>{item[2]}</td>
+              {/* <td key={index}>
+                <img src={editLog} alt="" />
+              </td> */}
             </tr>
           ))}
         </tbody>

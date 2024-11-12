@@ -19,10 +19,7 @@ function App() {
     localStorage.setItem("total", total);
   }, [countTotal]);
 
-  // console.log("Type :", type, " Ruppee :", ruppee, " Total :", total);
-  // console.log("Ruppee :", ruppee);
-
-  const save = () => {
+  const toDay = () => {
     let dateObj = new Date();
     let date =
       dateObj.getDate() +
@@ -30,44 +27,49 @@ function App() {
       dateObj.getMonth() +
       "-" +
       dateObj.getFullYear();
-    countTotal();
-    let event = document.getElementById("event").value;
-    if (JSON.parse(localStorage.getItem("obj")) == null) {
-      var obj = [type, event, ruppee, date];
-      localStorage.setItem("obj", JSON.stringify([obj]));
+    return date;
+  };
+
+  const save = () => {
+    let event = document.getElementById("event").value.trim();
+
+    if (event.length > 0 && ruppee != 0) {
+      let date = toDay();
+      countTotal();
+      if (JSON.parse(localStorage.getItem("obj")) == null) {
+        var obj = [type, event, ruppee, date];
+        localStorage.setItem("obj", JSON.stringify([obj]));
+      } else {
+        obj = JSON.parse(localStorage.getItem("obj"));
+        let index = obj.length;
+        obj[index] = [type, event, ruppee, date];
+        localStorage.setItem("obj", JSON.stringify(obj));
+      }
+      document.getElementById("event").value = "";
+      document.getElementById("ruppee").value = NaN;
     } else {
-      obj = JSON.parse(localStorage.getItem("obj"));
-      let index = obj.length;
-      obj[index] = [type, event, ruppee, date];
-      localStorage.setItem("obj", JSON.stringify(obj));
+      alert("Enter Valid Input !");
     }
-    document.getElementById("event").value = "";
-    document.getElementById("ruppee").value = NaN;
   };
 
   const loadData = useCallback(() => {
-    console.log("load data run");
     var obj = JSON.parse(localStorage.getItem("obj"));
 
-    if (obj == null) {
-      return <h4>Add Data to find total!!</h4>;
+    if (obj === null) {
+      return <h4></h4>;
     } else {
       return <Table />;
     }
   });
 
-  const clear = () => {
-    document.getElementById("event").value = "";
-    document.getElementById("ruppee").value = NaN;
-  };
-
   const clearAll = () => {
     localStorage.clear();
+    window.location.reload();
   };
 
   useEffect(() => {
     loadData();
-  }, [save, clearAll]);
+  }, [save]);
 
   return (
     <>
@@ -83,21 +85,25 @@ function App() {
             <option value="Income">Income</option>
             <option value="Expense">Expense</option>
           </select>
-          <input type="text" id="event" placeholder="Event name" />
+          <input type="text" id="event" placeholder="Event name" required />
           <input
             type="number"
             id="ruppee"
             placeholder="₹"
+            min={0}
             onBlur={(e) => {
-              setRuppee(e.target.value);
+              if (e.target.value > 0) {
+                setRuppee(e.target.value);
+              }
             }}
+            required
           />
           <button className="save" onClick={save}>
             Save
           </button>
-          <button className="clear" onClick={clear}>
+          {/* <button className="clear" onClick={clear}>
             Clear
-          </button>
+          </button> */}
         </div>
 
         <div className="line"></div>
@@ -105,20 +111,28 @@ function App() {
 
         <h3>
           {total > 0 ? (
-            <div style={{ display: "inline" }}>₹{total} Profit</div>
+            <div style={{ display: "inline", color: "green" }}>
+              ₹{total} Profit
+            </div>
           ) : (
             <div></div>
           )}
           {total < 0 ? (
-            <div style={{ display: "inline" }}>₹{total} Loss</div>
+            <div style={{ display: "inline", color: "red" }}>
+              ₹{Math.abs(total)} Loss
+            </div>
           ) : (
             <div></div>
           )}
           {total == 0 ? <div></div> : <div></div>}
         </h3>
-        <button className="clear clear-all" onClick={clearAll}>
-          Clear All Data
-        </button>
+        {localStorage.getItem("obj") != null ? (
+          <button className="clear clear-all" onClick={clearAll}>
+            Clear
+          </button>
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );
