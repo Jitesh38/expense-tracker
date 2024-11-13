@@ -1,24 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useId } from "react";
 import "./App.css";
-import Table from "./component/Table";
+import dltLogo from "./assets/dlt.svg";
 
 function App() {
   const [type, setType] = useState("Income");
   const [ruppee, setRuppee] = useState(0);
-  const [total, setTotal] = useState(Number(localStorage.getItem("total")));
+  const [total, setTotal] = useState(0);
+  const [obj, setObj] = useState(JSON.parse(localStorage.getItem("obj")));
+  const id = useId();
 
-  const countTotal = () => {
-    if (type == "Income") {
-      setTotal(total + Number(ruppee));
-    } else if (type == "Expense") {
-      setTotal(total - Number(ruppee));
-    }
-  };
-
-  useEffect(() => {
-    localStorage.setItem("total", total);
-  }, [countTotal]);
-
+  //fetching current date
   const toDay = () => {
     let dateObj = new Date();
     let date =
@@ -30,46 +21,105 @@ function App() {
     return date;
   };
 
+  //count total from localstorage
+  const countTotal = useCallback(() => {
+    if (obj !== null && obj.length !== 0) {
+      let finalTotal = 0;
+      obj.map((item) => {
+        if (item[0] == "Income") {
+          finalTotal = finalTotal + Number(item[2]);
+        } else if (item[0] == "Expense") {
+          finalTotal = finalTotal - Number(item[2]);
+        }
+      });
+      setTotal(finalTotal);
+    } else {
+      setTotal(0);
+    }
+  }, [obj, setObj]);
+
+  //save data to localstorage
   const save = () => {
     let event = document.getElementById("event").value.trim();
 
     if (event.length > 0 && ruppee != 0) {
       let date = toDay();
-      countTotal();
-      if (JSON.parse(localStorage.getItem("obj")) == null) {
-        var obj = [type, event, ruppee, date];
+      if (obj === null) {
+        let obj = [type, event, ruppee, date];
         localStorage.setItem("obj", JSON.stringify([obj]));
       } else {
-        obj = JSON.parse(localStorage.getItem("obj"));
         let index = obj.length;
         obj[index] = [type, event, ruppee, date];
         localStorage.setItem("obj", JSON.stringify(obj));
       }
+      setObj(JSON.parse(localStorage.getItem("obj")));
       document.getElementById("event").value = "";
-      document.getElementById("ruppee").value = NaN;
+      document.getElementById("ruppee").value = null;
     } else {
       alert("Enter Valid Input !");
     }
   };
 
+  //Fetch data from localstorage in to table
   const loadData = useCallback(() => {
-    var obj = JSON.parse(localStorage.getItem("obj"));
-
-    if (obj === null) {
-      return <h4></h4>;
+    if (obj === null || obj.length === 0) {
+      return <></>;
     } else {
-      return <Table />;
+      return (
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Event</th>
+                <th>₹</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {obj.map((item, index) => (
+                <tr className={item[0]}>
+                  <td key={id}>{item[3]}</td>
+                  <td key={id}>{item[0]}</td>
+                  <td key={id}>{item[1]}</td>
+                  <td key={id}>{item[2]}</td>
+                  <td
+                    key={id}
+                    id={index}
+                    onClick={() => {
+                      deleteRow(index);
+                    }}
+                  >
+                    <img src={dltLogo} alt="" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
     }
-  });
+  }, [obj, setObj]);
 
-  const clearAll = () => {
-    localStorage.clear();
-    window.location.reload();
+  //handle individual delete on row
+  const deleteRow = (index) => {
+    obj.splice(index, 1);
+    localStorage.setItem("obj", JSON.stringify(obj));
+    setObj(JSON.parse(localStorage.getItem("obj")));
   };
 
+  //clear all data from App
+  const clearAll = () => {
+    localStorage.clear();
+    setObj(JSON.parse(localStorage.getItem("obj")));
+  };
+
+  //run methods when change in obj
   useEffect(() => {
+    countTotal();
     loadData();
-  }, [save]);
+  }, [obj, setObj]);
 
   return (
     <>
@@ -101,9 +151,6 @@ function App() {
           <button className="save" onClick={save}>
             Save
           </button>
-          {/* <button className="clear" onClick={clear}>
-            Clear
-          </button> */}
         </div>
 
         <div className="line"></div>
@@ -124,9 +171,13 @@ function App() {
           ) : (
             <div></div>
           )}
-          {total == 0 ? <div></div> : <div></div>}
+          {total === 0 && obj !== null && obj.length !== 0 ? (
+            <div>EQUAL</div>
+          ) : (
+            <div></div>
+          )}
         </h3>
-        {localStorage.getItem("obj") != null ? (
+        {obj !== null && obj.length !== 0 ? (
           <button className="clear clear-all" onClick={clearAll}>
             Clear
           </button>
