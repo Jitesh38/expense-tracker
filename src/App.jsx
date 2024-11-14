@@ -15,9 +15,8 @@ function App() {
     let date =
       dateObj.getDate() +
       "-" +
-      dateObj.getMonth() +
-      "-" +
-      dateObj.getFullYear();
+      (dateObj.getMonth() + 1) 
+      // +     "-"      +      dateObj.getFullYear();
     return date;
   };
 
@@ -67,7 +66,7 @@ function App() {
     } else {
       return (
         <div>
-          <table>
+          <table className="print-area">
             <thead>
               <tr>
                 <th>Date</th>
@@ -120,6 +119,10 @@ function App() {
     countTotal();
     loadData();
   }, [obj, setObj]);
+
+  const printElement = () => {
+    window.print();
+  };
 
   return (
     <>
@@ -177,13 +180,22 @@ function App() {
             <div></div>
           )}
         </h3>
-        {obj !== null && obj.length !== 0 ? (
-          <button className="clear clear-all" onClick={clearAll}>
-            Clear
-          </button>
-        ) : (
-          <div></div>
-        )}
+        <div>
+          {obj !== null && obj.length !== 0 ? (
+            <button className="clear " onClick={printElement}>
+              Save
+            </button>
+          ) : (
+            <div></div>
+          )}
+          {obj !== null && obj.length !== 0 ? (
+            <button className="clear clear-all" onClick={clearAll}>
+              Clear
+            </button>
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
     </>
   );

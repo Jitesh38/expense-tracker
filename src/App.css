@@ -63,13 +63,14 @@ button {
 }
 
 button.clear {
-  background-color: rgb(255 129 129);
-  border-color: #f37f7f;
+  height: 35px;
+  width: 110px;
+  margin: 10px;
 }
 
 button.clear-all {
-  height: 35px;
-  width: 110px;
+  background-color: rgb(255 129 129);
+  border-color: #f37f7f;
 }
 
 .line {
@@ -109,6 +110,28 @@ tr.Expense {
 }
 
 /*Media Query*/
-@media (width <= 1250px) {
-  /* … */
+@media (width <=650px) {
+  .container-upper {
+    flex-direction: column;
+  }
+  #ruppee{
+    justify-self: flex-start;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 }
