@@ -1,0 +1,178 @@
+/* ───────────────── PERSON HISTORY ───────────────── */
+.person-history {
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+  animation: fadeInUp var(--transition-slow) both;
+  animation-delay: 300ms;
+}
+
+.person-history__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+
+.person-history__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.person-card {
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.person-card:hover {
+  border-color: var(--border-hover);
+}
+
+.person-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+
+.person-card__header:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.person-card__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--accent-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--accent-light);
+  flex-shrink: 0;
+}
+
+.person-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.person-card__name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.person-card__stats {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.person-card__stat--income {
+  color: var(--income);
+}
+
+.person-card__stat--expense {
+  color: var(--expense);
+}
+
+.person-card__net {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.person-card__net--positive {
+  color: var(--income-light);
+}
+
+.person-card__net--negative {
+  color: var(--expense-light);
+}
+
+.person-card__chevron {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  transition: transform var(--transition-base);
+}
+
+.person-card__chevron--open {
+  transform: rotate(180deg);
+}
+
+.person-card__body {
+  padding: 0 var(--space-lg) var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.person-card__bar {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.06);
+  margin: var(--space-md) 0 var(--space-sm);
+  overflow: hidden;
+  display: flex;
+}
+
+.person-card__bar-fill--income {
+  background: var(--income);
+  transition: width var(--transition-slow);
+}
+
+.person-card__bar-fill--expense {
+  background: var(--expense);
+  transition: width var(--transition-slow);
+}
+
+.person-card__txn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.person-card__txn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.person-card__txn-name {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.person-card__txn-amount--income {
+  color: var(--income);
+  font-weight: 600;
+}
+
+.person-card__txn-amount--expense {
+  color: var(--expense);
+  font-weight: 600;
+}
+
+.person-history__empty {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}

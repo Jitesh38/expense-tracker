@@ -1,0 +1,133 @@
+/* ───────────────── SUMMARY CARDS ───────────────── */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  animation: fadeInUp var(--transition-slow) both;
+  animation-delay: 100ms;
+}
+
+.summary-card {
+  position: relative;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  cursor: default;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+}
+
+/* Income card */
+.summary-card--income::before {
+  background: linear-gradient(90deg, var(--income), var(--income-light));
+}
+
+.summary-card--income:hover {
+  box-shadow: var(--income-glow);
+  border-color: var(--border-income);
+}
+
+/* Expense card */
+.summary-card--expense::before {
+  background: linear-gradient(90deg, var(--expense), var(--expense-light));
+}
+
+.summary-card--expense:hover {
+  box-shadow: var(--expense-glow);
+  border-color: var(--border-expense);
+}
+
+/* Balance card */
+.summary-card--balance::before {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+.summary-card--balance:hover {
+  box-shadow: var(--accent-glow);
+  border-color: var(--border-accent);
+}
+
+.summary-card__icon {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-sm);
+}
+
+.summary-card__label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-xs);
+}
+
+.summary-card__value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.summary-card--income .summary-card__value {
+  color: var(--income-light);
+}
+
+.summary-card--expense .summary-card__value {
+  color: var(--expense-light);
+}
+
+.summary-card--balance .summary-card__value {
+  color: var(--accent-light);
+}
+
+.summary-card__badge {
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  margin-left: var(--space-sm);
+}
+
+.badge-profit {
+  background: var(--income-bg);
+  color: var(--income-light);
+}
+
+.badge-loss {
+  background: var(--expense-bg);
+  color: var(--expense-light);
+}
+
+.badge-equal {
+  background: var(--accent-bg);
+  color: var(--accent-light);
+}
+
+@media (max-width: 640px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card__value {
+    font-size: var(--text-xl);
+  }
+}

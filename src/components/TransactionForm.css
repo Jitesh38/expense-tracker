@@ -1,0 +1,154 @@
+/* ───────────────── TRANSACTION FORM ───────────────── */
+.txn-form {
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+  animation: fadeInUp var(--transition-slow) both;
+  animation-delay: 200ms;
+}
+
+.txn-form__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-lg);
+  color: var(--text-primary);
+}
+
+.txn-form__type-toggle {
+  display: flex;
+  gap: 0;
+  margin-bottom: var(--space-md);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+
+.txn-form__type-btn {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.txn-form__type-btn--active-income {
+  background: var(--income-bg);
+  color: var(--income-light);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+}
+
+.txn-form__type-btn--active-expense {
+  background: var(--expense-bg);
+  color: var(--expense-light);
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.15);
+}
+
+.txn-form__type-btn:hover:not([class*="active"]) {
+  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.txn-form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.txn-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.txn-form__group--full {
+  grid-column: 1 / -1;
+}
+
+.txn-form__label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.txn-form__input,
+.txn-form__select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font);
+  transition: all var(--transition-base);
+  outline: none;
+}
+
+.txn-form__input::placeholder {
+  color: var(--text-muted);
+}
+
+.txn-form__input:focus,
+.txn-form__select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.txn-form__select option {
+  background: #ffffff;
+  color: var(--text-primary);
+}
+
+.txn-form__submit {
+  grid-column: 1 / -1;
+  margin-top: var(--space-sm);
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.txn-form__submit--income {
+  background: linear-gradient(135deg, var(--income-dark), var(--income));
+  color: white;
+}
+
+.txn-form__submit--expense {
+  background: linear-gradient(135deg, var(--expense-dark), var(--expense));
+  color: white;
+}
+
+.txn-form__submit:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.txn-form__submit:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .txn-form__grid {
+    grid-template-columns: 1fr;
+  }
+}
